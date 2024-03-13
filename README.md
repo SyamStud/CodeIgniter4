@@ -167,7 +167,7 @@ MVC adalah konsep pemrograman yang memisahkan antara logika, tampilan, dan alur 
 - **Views:** Merupakan file sederhana, umumnya berupa HTML dengan sedikit kode PHP. Fungsinya menampilkan informasi kepada pengguna. Data yang ditampilkan berasal dari controller dan diteruskan sebagai variabel. View dapat memuat view lain di dalamnya jika diperlukan.
 - **Controllers:** Bertindak sebagai penghubung antara view dan model. Controller menerima input dari pengguna dan menentukan tindakan yang perlu dilakukan. Beberapa tugas controller yaitu meneruskan data ke model untuk disimpan, meminta data dari model untuk ditampilkan ke view, memuat library tambahan untuk menangani tugas khusus, serta menangani hal-hal terkait permintaan HTTP seperti autentikasi.
 
-## #General Topics
+## # General Topics
 ### • CodeIgniter URLs
 - Base URL yang hanya mengandung hostname
 ```SH
@@ -220,9 +220,9 @@ Buka url yang mengarah pada view tersebut. Misalnya di sini `http://localhost:80
 | alert     | Tindakan harus segera diambil, seperti website down, database tidak tersedia, dll. |
 | emergency | Sistem tidak dapat digunakan. |
 
-## #Building Response
+## # Building Response
 ### • HTML Table Class
-#### •Static Data
+#### • Static Data
 1. Deklarasi Tabel
 ```PHP
 // App/Views/Labs/Table.php
@@ -250,7 +250,7 @@ echo $table->generate($data);
 3. Buka url yang mengarah pada view tersebut. Misalnya di sini `http://localhost:8080/labs`. Maka akan muncul tampilan seperti berikut:
 <img width="298" alt="image" src="https://github.com/SyamStud/CodeIgniter4/assets/116321351/ccca79ce-818e-41c0-aac8-0bb5f1034e18">
 
-#### • Static Data
+#### • Dynamic Data
 Untuk membuat data dalam tabel dapat berubah-ubah, maka dibutuhkan pengambilan data dari database
 ```PHP
 <?php
@@ -267,4 +267,151 @@ foreach ($query->fetch_all() as $row) {
     $table->addRow($row);
 }
 echo $table->generate();
+```
+
+### • Alternate PHP Syntax for View Files
+#### • Alternative Echos
+Normal :
+```PHP
+<?php echo $variable; ?>
+```
+Alternatif :
+```PHP
+<?= $variable ?>
+```
+
+#### • Alternative Control Structures
+Normal :
+```PHP
+<ul>
+
+<?php foreach ($todo as $item){ ?>
+
+    <li><?= $item ?></li>
+
+<?php } ?>
+
+</ul>
+```
+Alternatif :
+```PHP
+<ul>
+
+<?php foreach ($todo as $item): ?>
+
+    <li><?= $item ?></li>
+
+<?php endforeach ?>
+
+</ul>
+```
+
+## # Working With Databases
+### • Database Configuration
+Untuk dapat menggunakan database, perlu melakukan konfigurasi terlebih dahulu. Buka App > Config > Database.php, lalu isikan username, password, dan database yang sesuai.
+```PHP
+<?php
+
+namespace Config;
+
+use CodeIgniter\Database\Config;
+
+class Database extends Config
+{
+    // ...
+
+    public array $default = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'pbf-week1',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => true,
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
+    // ...
+}
+```
+### • Connecting to a Database
+Metode pertama :
+```PHP
+$db = \Config\Database::connect();
+```
+Metode kedua :
+```PHP
+$db = db_connect();
+```
+
+### • Running Qeries
+Reguler Query :
+```PHP
+<?php
+
+$db = db_connect();
+$db->query('SELECT * FROM table');
+```
+```PHP
+<?php
+
+$query = $db->query('SELECT * FROM table');
+```
+Simplified Query :
+`simpleQuery()` tidak mengembalikan kumpulan hasil (result set) dari database dan hanya digunakan untuk write queries seperti INSERT, DELETE, atau UPDATE
+```PHP
+<?php
+
+if ($db->simpleQuery('INSERT INTO table VALUES (values1, values2, values3')) {
+    echo 'Success!';
+} else {
+    echo 'Query failed!';
+}
+```
+
+## # Helpers
+### • Number Helper
+Untuk dapat menggunakan helper, perlu untuk menuliskan perintah `helper()` yang berisi parameter untuk helper yang dibutuhkan
+```PHP
+<?php
+
+helper('number');
+```
+Contoh Number Helper :
+```PHP
+// number_to_size($num[, $precision = 1[, $locale = null]])
+echo number_to_size(456);
+
+// number_to_amount($num[, $precision = 1[, $locale = null])
+echo number_to_amount(123456);
+
+// number_to_currency($num, $currency[, $locale = null[, $fraction = 0]])
+echo number_to_currency(1234.56, 'USD', 'en_US', 2);
+
+// number_to_roman($num)
+echo number_to_roman(23);
+```
+
+### • Date Helper
+```PHP
+<?php
+
+helper('date');
+```
+Contoh Date Helper :
+```PHP
+// now([$timezone = null])
+echo now();
+
+// timezone_select([$class = '', $default = '', $what = \DateTimeZone::ALL, $country = null])
+echo timezone_select('custom-select', 'America/New_York');
 ```
