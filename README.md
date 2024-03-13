@@ -1,4 +1,8 @@
 # CodeIgniter4
+#### Syam Chaidayatullah
+#### 220102046
+#### TI-2B
+
 ## # Requirements
 1. Composer v2.7.2
 2. PHP v7.x
