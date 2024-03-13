@@ -30,7 +30,7 @@ PHP spark serve
 4. Buka aplikasi di url http://localhost:8080/
 
 ## # Build Your First Application
-
+### • Static Website
 1. Tambahkan 2 buah routes berikut ini setelah default root dan tambahkan tambahkan `use App\Controllers\Pages;` sehingga menjadi
    
 ```PHP
@@ -80,3 +80,191 @@ class Pages extends BaseController
 }
 ```
 3. Buat 2 buah file di App > Views > Templates dengan nama header.php dan footer.php. lalu ketikkan kode berikut:
+```PHP
+// Header.php
+
+<!doctype html>
+<html>
+<head>
+    <title>CodeIgniter Tutorial</title>
+</head>
+<body>
+
+    <h1><?= esc($title) ?></h1>
+```
+```PHP
+// Footer.php
+
+    <em>&copy; 2022</em>
+</body>
+</html>
+```
+4. Buat 2 file di App > Views > Pages dengan nama home.php dan about.php. lalu ketikkan kode berikut:
+```PHP
+// Home.php
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <h3>Ini adalah halaman home</h3>
+</body>
+</html>
+```
+```PHP
+// About.php
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <h3>Ini adalah halaman home</h3>
+</body>
+</html>
+```
+5. Jalankan aplikasi dengan mengetikkan perintah berikut di terminal:
+```SH
+PHP spark serve
+```
+6. Buka url http://localhost:8080/home dan http://localhost:8080/about sehingga muncul tampilan seperti berikut:
+<img width="200" alt="Untitled" src="https://github.com/SyamStud/CodeIgniter4/assets/116321351/e99cebb6-2b0a-4375-a46f-526a687956d7">
+<img width="200" alt="Untitled" src="https://github.com/SyamStud/CodeIgniter4/assets/116321351/cfd56844-d092-4cc6-9027-258955258565">
+
+## # CodeIgniter4 Overview
+### • Aplication Structure
+- **App:**
+    - Berisi kode utama aplikasi
+    - Sudah memiliki struktur bawaan yang dapat dimodifikasi
+    - Subfolder:
+        - **Config:** Menyimpan file konfigurasi
+        - **Controllers:** Menentukan alur program
+        - **Database:** Menyimpan migrasi dan seeder database
+        - **Filters:** Menyimpan class filter yang dapat dijalankan sebelum dan sesudah controller
+        - **Helpers:** Koleksi fungsi yang dapat digunakan secara mandiri
+        - **Language:** Mendukung banyak bahasa, membaca string bahasa dari sini
+        - **Libraries:** Kelas yang berguna dan tidak termasuk kategori lainnya
+        - **Models:** Bekerja dengan database untuk mewakili entitas bisnis
+        - **ThirdParty:** Library pihak ketiga yang dapat digunakan dalam aplikasi
+        - **Views:** Menyusun HTML yang ditampilkan kepada pengguna
+- **Public:**
+    - Folder yang dapat diakses browser, berisi:
+        - File `.htaccess` utama
+        - File `index.php`
+        - Aset aplikasi seperti CSS, Javascript, dan gambar
+    - Merupakan "web root" yang diakses oleh web server
+- **Writable:**
+    - Digunakan untuk direktori yang perlu ditulis selama aplikasi berjalan
+    - Biasanya berisi:
+        - Direktori untuk menyimpan file cache
+        - Direktori log
+        - Direktori penyimpanan upload pengguna
+- **Tests:**
+    - Digunakan untuk menyimpan file pengujian
+    - Subfolder `_support` berisi mock class dan utilitas untuk menulis pengujian
+    - Tidak perlu dipindahkan ke server produksi
+### • Models, Views, Controllers
+MVC adalah konsep pemrograman yang memisahkan antara logika, tampilan, dan alur program, sehingga membuat kode lebih mudah dibah dan dipahami.
+
+- **Models:** Berfungsi mengelola data aplikasi dan mengatur aturan bisnis khusus yang mungkin diperlukan. Model ini bisa berupa data pengguna, posting blog, transaksi, dan lain-lain.
+- **Views:** Merupakan file sederhana, umumnya berupa HTML dengan sedikit kode PHP. Fungsinya menampilkan informasi kepada pengguna. Data yang ditampilkan berasal dari controller dan diteruskan sebagai variabel. View dapat memuat view lain di dalamnya jika diperlukan.
+- **Controllers:** Bertindak sebagai penghubung antara view dan model. Controller menerima input dari pengguna dan menentukan tindakan yang perlu dilakukan. Beberapa tugas controller yaitu meneruskan data ke model untuk disimpan, meminta data dari model untuk ditampilkan ke view, memuat library tambahan untuk menangani tugas khusus, serta menangani hal-hal terkait permintaan HTTP seperti autentikasi.
+
+## #General Topics
+### • CodeIgniter URLs
+- Base URL yang hanya mengandung hostname
+```SH
+https://www.example.com/blog/news/2022/10?page=2
+```
+| Ketentuan | Contoh |
+| ------ | ------ |
+| Base URL | https://www.example.com/ |
+| URI PATH | /blog/news/2022/10 |
+| Route PATH | /blog/news/2022/10 |
+| QUERY | page=2 |
+
+- BASE URL yang mengandung Sub Folder
+```SH
+https://www.example.com/ci-blog/blog/news/2022/10?page=2
+```
+| Ketentuan | Contoh |
+| ------ | ------ |
+| Base URL | https://www.example.com/ci-blog/ |
+| URI PATH | /blog/news/2022/10 |
+| Route PATH | /blog/news/2022/10 |
+| QUERY | page=2 |
+
+### • Logging Information
+Logging information digunakan untuk mencatat informasi penting selama eksekusi aplikasi web. Informasi ini dapat berupa pesan error, peringatan, informasi debug, atau bahkan data kustom yang Anda ingin rekam. Contoh penggunaan:
+
+```PHP
+// App/Views/Labs/view.php
+
+<?php
+$info = [
+    'id'   => "01",
+    'nama' => "budi",
+];
+
+log_message('info', 'Pengguna {id} login ke sistem dengan nama {nama}', $info);
+```
+Buka url yang mengarah pada view tersebut. Misalnya di sini `http://localhost:8080/labs`. Buka debug bar > logs, maka akan tampil sebuah log yang telah dibuat
+<br /><br /><img width="960" alt="image" src="https://github.com/SyamStud/CodeIgniter4/assets/116321351/85037923-10b6-4fd4-8001-4ef085889bfe">
+
+**Tingkatan Logging**
+| Level     | Description |
+|-----------|-------------|
+| debug     | Informasi debug terperinci. |
+| info      | Peristiwa menarik, seperti pengguna login, logging query SQL, dll. |
+| notice    | Peristiwa normal namun signifikan. |
+| warning   | Kejadian luar biasa yang bukan kesalahan, seperti penggunaan API yang buruk, dll. |
+| error     | Kesalahan runtime yang tidak memerlukan tindakan segera, tetapi harus dicatat dan dipantau. |
+| critical  | Kondisi kritis, seperti komponen aplikasi tidak tersedia, atau exception tak terduga. |
+| alert     | Tindakan harus segera diambil, seperti website down, database tidak tersedia, dll. |
+| emergency | Sistem tidak dapat digunakan. |
+
+## #Building Response
+### • HTML Table Class
+#### •Static Data
+1. Deklarasi Tabel
+```PHP
+// App/Views/Labs/Table.php
+
+<?php
+
+$table = new \CodeIgniter\View\Table();
+```
+2. Buat sebuah variabel yang berisi data dummy untuk dimasukkan ke dalam tabel. lalu gunakan perintah `$table->generate($data)` untuk mengenerate tabel dengan memasukkan variabel yang sudah dibuat sebagai parameter
+```PHP
+<?php
+// App/Views/Labs/Table.php
+
+$table = new \CodeIgniter\View\Table();
+
+$data = [
+    ['Name', 'Color', 'Size'],
+    ['Fred', 'Blue', 'Small'],
+    ['Mary', 'Red', 'Large'],
+    ['John', 'Green', 'Medium'],
+];
+
+echo $table->generate($data);
+```
+3. Buka url yang mengarah pada view tersebut. Misalnya di sini `http://localhost:8080/labs`. Maka akan muncul tampilan seperti berikut:
+<img width="298" alt="image" src="https://github.com/SyamStud/CodeIgniter4/assets/116321351/ccca79ce-818e-41c0-aac8-0bb5f1034e18">
+
+#### • Static Data
+Untuk membuat data dalam tabel dapat berubah-ubah, maka dibutuhkan pengambilan data dari database
+```PHP
+<?php
+// App/Views/Labs/Table.php
+
+$table = new \CodeIgniter\View\Table();
+$db = new mysqli('localhost', 'root', '', 'pbf-week1');
+
+$query = $db->query('SELECT * FROM categories');
+
+$table->setHeading('ID', 'NAME');
+
+foreach ($query->fetch_all() as $row) {
+    $table->addRow($row);
+}
+echo $table->generate();
+```
