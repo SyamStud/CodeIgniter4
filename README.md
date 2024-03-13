@@ -3,8 +3,6 @@
 #### 220102046
 #### TI-2B
 
-`Repository project :` https://github.com/SyamStud/CodeIgniter-Doc
-
 ## # Requirements
 1. Composer v2.7.2
 2. PHP v7.x
