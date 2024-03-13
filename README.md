@@ -44,6 +44,7 @@ $routes->get('(:segment)', [Pages::class, 'view']);
 Sehingga menjadi 
 ```PHP
 <?php
+// App/Config/Routes.php
 
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\Pages;
@@ -58,6 +59,7 @@ $routes->get('(:segment)', [Pages::class, 'view']);
 2. Buat Controller dengan mengetik perintah `PHP spark make:controller Pages`. lalu ketikkan kode berikut:
 ```PHP
 <?php
+// App/Controllers/Pages.php
 
 namespace App\Controllers;
 
@@ -85,7 +87,7 @@ class Pages extends BaseController
 ```
 3. Buat 2 buah file di App > Views > Templates dengan nama header.php dan footer.php. lalu ketikkan kode berikut:
 ```PHP
-// Header.php
+// App/Views/Templates/Header.php
 
 <!doctype html>
 <html>
@@ -97,7 +99,7 @@ class Pages extends BaseController
     <h1><?= esc($title) ?></h1>
 ```
 ```PHP
-// Footer.php
+// App/Views/Templates/Footer.php
 
     <em>&copy; 2022</em>
 </body>
@@ -105,7 +107,7 @@ class Pages extends BaseController
 ```
 4. Buat 2 file di App > Views > Pages dengan nama home.php dan about.php. lalu ketikkan kode berikut:
 ```PHP
-// Home.php
+// App/Views/Pages/Home.php
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,7 +117,7 @@ class Pages extends BaseController
 </html>
 ```
 ```PHP
-// About.php
+// App/Views/Pages/About.php
 
 <!DOCTYPE html>
 <html lang="en">
@@ -199,7 +201,7 @@ https://www.example.com/ci-blog/blog/news/2022/10?page=2
 Logging information digunakan untuk mencatat informasi penting selama eksekusi aplikasi web. Informasi ini dapat berupa pesan error, peringatan, informasi debug, atau bahkan data kustom yang Anda ingin rekam. Contoh penggunaan:
 
 ```PHP
-// App/Views/Labs/view.php
+// App/Views/Labs/logging.php
 
 <?php
 $info = [
@@ -229,7 +231,7 @@ Buka url yang mengarah pada view tersebut. Misalnya di sini `http://localhost:80
 #### • Static Data
 1. Deklarasi Tabel
 ```PHP
-// App/Views/Labs/Table.php
+// App/Views/Labs/table.php
 
 <?php
 
@@ -238,7 +240,7 @@ $table = new \CodeIgniter\View\Table();
 2. Buat sebuah variabel yang berisi data dummy untuk dimasukkan ke dalam tabel. lalu gunakan perintah `$table->generate($data)` untuk mengenerate tabel dengan memasukkan variabel yang sudah dibuat sebagai parameter
 ```PHP
 <?php
-// App/Views/Labs/Table.php
+// App/Views/Labs/table.php
 
 $table = new \CodeIgniter\View\Table();
 
@@ -258,7 +260,7 @@ echo $table->generate($data);
 Untuk membuat data dalam tabel dapat berubah-ubah, maka dibutuhkan pengambilan data dari database
 ```PHP
 <?php
-// App/Views/Labs/Table.php
+// App/Views/Labs/table.php
 
 $table = new \CodeIgniter\View\Table();
 $db = new mysqli('localhost', 'root', '', 'pbf-week1');
@@ -315,6 +317,7 @@ Alternatif :
 Untuk dapat menggunakan database, perlu melakukan konfigurasi terlebih dahulu. Buka App > Config > Database.php, lalu isikan username, password, dan database yang sesuai.
 ```PHP
 <?php
+// App/Config/Database.php
 
 namespace Config;
 
@@ -361,6 +364,7 @@ $db = db_connect();
 Reguler Query :
 ```PHP
 <?php
+// App/Views/Labs/query.php
 
 $db = db_connect();
 $db->query('SELECT * FROM table');
@@ -387,6 +391,7 @@ if ($db->simpleQuery('INSERT INTO table VALUES (values1, values2, values3')) {
 Untuk dapat menggunakan helper, perlu untuk menuliskan perintah `helper()` yang berisi parameter untuk helper yang dibutuhkan
 ```PHP
 <?php
+// App/Views/Labs/views.php
 
 helper('number');
 ```
